@@ -1,0 +1,26 @@
+<% layout("/layouts/boilerplate.ejs") -%>
+
+    <body>
+        <main class="show-wrapper">
+        <aside class="filter">
+            <h2>filter related ....</h2>
+        </aside>
+        <div class="item-container">
+            <% for(x of item) {%>
+                <div class="item-container-show">
+                    <img class="item-image" src="<%-x.imageLink %>" alt="">
+                    <div class="item-info">
+                        <h3>
+                            <%=x.name %>
+                        </h3>
+                        <small>&#8377;<%=x.price %></small>
+                        <div class="button-item ">
+                            <button class="show-btn">Order Now</button>
+                            <button class="show-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </main>
+    </body>
