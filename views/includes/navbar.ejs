@@ -1,0 +1,51 @@
+<nav>
+    <div class="logo-outer">
+        <i class="fa-solid fa-burger logo"></i>
+        <a href="/"><span>Tanawul</span></a>
+    </div>
+
+    <ul>
+        <form action="/location/check" method="post" class="nav-form">
+            <input type="text" placeholder="enter pincode" class="search-bar" id="search-box"
+                autocomplete="address-level1" name="pincode">
+            <div class="suggestions-box" id="suggestions"></div>
+            <button class="no-btn1"><i class="fas fa-search" id="location"></i></button>
+        </form>
+        <li><a href="/">Home</a></li>
+        <li><a href="/menu">Menu</a></li>
+        <li><a href="/public/restaurant/new">Partner with Us</a></li>
+
+    </ul>
+    <div class="search">
+        <div class="search2">
+            <i class="fa-solid fa-bag-shopping">
+                <a class="my-link1" href="/cart"></a>
+                <!-- onclick="displayCart()" -->
+                <% if(cartNumber) {%>
+                    <span class="cart-number">
+                        <%= cartNumber %>
+                            <% } %>
+                    </span>
+            </i>
+        </div>
+        <% if(user?.role=='admin' ){ %>
+            <a href="/admin">Dashboard</a>
+            <% } else if(user?.role=='vendor' ) {%>
+                    <a href="/restaurant">Dashboard</a>
+                    <% } else { %>
+                        <% if(user){ %>
+                            <form action="/auth/logout">
+                                <button class="btn btn-sm">Logout</button>
+                            </form>
+                            <a href="/profile"><img src="/assets/appImg/emoji1.png" alt=""></a>
+
+                            <% } else { %>
+                                <form action="/auth">
+                                    <button class="btn btn-sm">Login</button>
+                                </form>
+
+                                <%}%>
+                    <% } %>
+    </div>
+
+</nav>

@@ -1,0 +1,19 @@
+<% layout("/layouts/res-admin.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    
+    <main class="col-md-9 mx-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style = "padding-top :56px">
+        <h1 class="h2">Welcome  </h1>
+        <div class="text-muted small">
+          Last updated: <%= new Date().toLocaleString('en-US', { 
+              timeZone: 'Asia/Kolkata',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true
+          }) %>
+        </div>
+      </div>
+
+

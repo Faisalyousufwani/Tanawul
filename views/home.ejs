@@ -1,0 +1,248 @@
+<% layout("/layouts/boilerplate.ejs") -%>
+    <header class="slider">
+        <div class="slide">
+            <div class="one">
+                <p>Are You Hungry?</p>
+                <h1>Don't Wait</h1>
+                <h3>Let's Order Food Now</h3>
+            </div>
+            <img class="hero" src="/assets/image.png" alt="">
+            <img class="header-deco" src="/assets/watch.png" alt="">
+            <img class="header-deco2" src="/assets/lines.png" alt="">
+
+        </div>
+        <div class="slide">
+            <div class="one">
+                <p>Are You Hungry?</p>
+                <h1>Don't Wait</h1>
+                <h3>Let's Order Food Now</h3>
+            </div>
+            <img class="hero" src="/assets/slider2.png" alt="">
+            <!-- <button class="my-btn">order now</button> -->
+            <img class="header-deco" src="/assets/watch.png" alt="">
+            <img class="header-deco2" src="/assets/lines.png" alt="">
+        </div>
+
+
+
+    </header>
+
+
+    <section class="menu-section">
+        <div class="text-container">
+            <p class="sub-top">Our menu</p>
+            <span class="top">Menu That Always Makes You Fall In Love</span>
+        </div>
+        <div class="menus">
+            <div class="menuBar">
+                <form action="/menu/pizza" method="get">
+                    <Button class="my-btn btn-menu" id="pizza1"><img src="/assets/Pizza.png" alt="">Pizza</Button>
+                </form>
+                <form action="/menu/burger" method="get">
+                    <Button class="my-btn btn-menu" id="pizza1"><img src="/assets/bu4ger.png" alt="">Burger</Button>
+                </form>
+
+                <form action="/menu/desert" method="get">
+                    <Button class="my-btn btn-menu" id="cupCake1"><img src="/assets/cupcake.png" alt="">Deserts</Button>
+                </form>
+
+                <form action="/menu/sushi" method="get">
+                    <Button class="my-btn btn-menu" id="iceCream1" onclick="show('iceCream')"><img
+                            src="/assets/ice-cream.png" alt="">Sushi</Button>
+                </form>
+
+                <form action="/" method="get">
+                    <Button class="my-btn btn-menu" id="ramen1"><img src="/assets/ramen.png" alt="">Noodles</Button>
+                </form>
+
+            </div>
+        </div>
+
+    </section>
+    <%- include('res/restaurants.ejs') %>
+    <section class="popular-categories">
+
+        <p class="top">Popular Categories</p>
+        <p class="sub-top">customer favourite popular categories </p>
+        <div class="popular-category">
+            <div class="category">
+                <img src="/assets/popular/popular-pizza.jpg" alt="">
+                <div class="popular-info">
+                    <h3>Pizza</h3>
+                    <small>Avg Price &#8377;200</small>
+                </div>
+            </div>
+
+            <div class="category">
+                <img src="/assets/popular/popular-veg.jpg" alt="">
+                <div class="popular-info">
+                    <h3>Vegetarian</h3>
+                    <small>Avg Price &#8377;200</small>
+                </div>
+            </div>
+
+            <div class="category">
+                <img src="/assets/popular/popular-hamburger.jpg" alt="">
+                <div class="popular-info">
+                    <h3>burger</h3>
+                    <small>Avg Price &#8377;200</small>
+                </div>
+            </div>
+
+            <div class="category">
+                <img src="/assets/popular/popular-chinese.jpg" alt="">
+                <div class="popular-info">
+                    <h3>Chinese</h3>
+                    <small>Avg Price &#8377;200</small>
+                </div>
+            </div>
+
+            <div class="category">
+                <img src="/assets/popular/popular-mexican.jpg" alt="">
+                <div class="popular-info">
+                    <h3>Mexican</h3>
+                    <small>Avg Price &#8377;200</small>
+                </div>
+            </div>
+
+            <div class="category">
+                <img src="/assets/popular/popular-sushi.jpg" alt="">
+                <div class="popular-info">
+                    <h3>Japanese</h3>
+                    <small>Avg Price &#8377;200</small>
+                </div>
+            </div>
+            <div class="category">
+                <img src="/assets/popular/popular-bakery.jpg" alt="">
+                <div class="popular-info">
+                    <h3>Japanese</h3>
+                    <small>Avg Price &#8377;200</small>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <section class="feedback">
+        <div class="feedback-wrapper">
+            <div class="img-chef">
+                <div class="img-chef-container">
+                    <img class="chef-img" src="/assets/feedback/rectangle 4.png">
+                    <img class="chef-img" src="/assets/feedback/chef.png" alt="">
+                </div>
+                
+
+                <div class="review-card">
+                    <p class="reveiw-text">Our Reviewers </p>
+                    <div class="review-img">
+                        <div class="circle one"><img src="/assets/feedback/Ellipse 8.png" alt=""></div>
+                        <div class="circle one"><img src="/assets/feedback/Ellipse 9.png" alt=""></div>
+                        <div class="circle one"><img src="/assets/feedback/Ellipse 10.png" alt=""></div>
+                        <div class="circle four">12k+</div>
+                    </div>
+                </div>
+
+            </div>
+            <img class="img-chef-sticker" src="/assets/feedback/image 43.png" alt="">
+            <div class="feedback-text">
+                <p class="sub-top">WHAT THEY SAY</p>
+                <p class="top">What Our Customers Say About Us</p>
+                <div class="feedback-card">
+                    <p>“Tanawul is the best. Besides the many and delicious meals, the service is also very good,
+                        especially
+                        in the very fast delivey. I highly recommend Tanawul to you”.</p>
+                    <div class="inner-card">
+                        <div class="small-img">
+                            <img src="/assets/feedback/Ellipse 8.png" alt="">
+
+                        </div>
+                        <div class="names">
+                            <p class="name">Theresa Jordan</p>
+                            <p class="profession">Food enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- <section class="download-app">
+        <div class="text-part">
+            <div class="text-part-sub">
+                <div class="text-only">
+                    <p class="sub-top">Download App</p>
+                    <p class="top app-text">Get Started With Tanawul Today!</p>
+                    <p>Discover food wherever and whenever and get your food delivered quickly.</p>
+                    <button class="my-btn">Get The App</button>
+                </div>
+                <div class="food-arrived">
+                    <img src="/assets/appImg/Frame 28.png" alt="">
+                    <p>Your Food has Arrived</p>
+                </div>
+            </div>
+            <div class="food-courier">
+                <img src="/assets/appImg/emoji2.png" alt="">
+                <div class="details-courier">
+                    <p class="name">nawaz </p>
+                    <p class="profession">Food Courier</p>
+
+                </div>
+                <img src="/assets/appImg/Frame 9.png" alt="">
+            </div>
+
+        </div>
+        <div class="image-app">
+            <div class="nav-top-app">
+                <div class="dots"><img src="/assets/appImg/Frame 20.png" alt=""></div>
+                <input type="search" placeholder="Anantnag,Ind">
+                <div class="emoji">
+                    <img src="/assets/appImg/emoji1.png" alt="">
+                </div>
+            </div>
+            <img class="hero" src="/assets/appImg/Frame 21.png" alt="">
+            <p>Categories</p>
+            <div class="phone-buttonBar">
+                <Button class="my-btn my-btn-sm my-app-btn" id="pizza1" onclick="show('pizza')"><img
+                        src="/assets/Pizza.png" alt="">Pizza</Button>
+                <Button class="my-btn my-btn-sm my-app-btn" id="burger1" onclick="show('burger')"><img
+                        src="/assets/bu4ger.png" alt="">Burger</Button>
+                <Button class="my-btn  my-btn-sm my-app-btn" id="cupCake1" onclick="show('cupCake')"><img
+                        src="/assets/cupcake.png" alt="">Cup
+                    Cake</Button>
+            </div>
+            <div class="populars">
+                <p>Popular Now</p>
+                <div class="popular-container">
+                    <div class="popular">
+                        <img src="/assets/appImg/burgerSmall.png" alt="">
+                        <div class="plate"></div>
+                    </div>
+                    <div class="popular">
+                        <img src="/assets/appImg/burgerSmall2.png" alt="">
+                        <div class="plate"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <section class="features">
+        <span class="sub-top">what we serve</span>
+        <h2 class="top">You Favourite food delivery Partner</h2>
+        <div class="card-container">
+            <div class="my-card">
+                <img id="first-img" src="/assets/feature1.png" alt="">
+                <p>Easy To Order</p>
+                <h5>you only need a few steps in ordering food</h5>
+            </div>
+
+            <div class="my-card">
+                <img src="/assets/feature2.png" alt="">
+                <p>Fastest Delivery</p>
+                <h5>delivery that is always on time even faster</h5>
+            </div>
+
+            <div class="my-card">
+                <img src="/assets/feature3.png" alt="">
+                <p>Best Quality</p>
+                <h5>not only fast but for us quality is also number one</h5>
+            </div>
+        </div>
+    </section>

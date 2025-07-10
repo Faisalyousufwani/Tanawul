@@ -1,0 +1,57 @@
+<% layout("layouts/res-admin.ejs") %>
+    <div class="container-fluid px-0">
+        <% orderData.forEach(function(x){%>
+            <div class="card w-100 p-3">
+                
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-success"><%-x.status %></span>
+
+                </div>
+                <div class="text-muted small mb-2">
+                    date:<%= x.orderDate %> | Order No: <%= x._id %>
+                    <div class="dropdown">
+                                    <button class="btn btn-link text-dark p-0" type="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <form action="/restaurant/order/<%-x?._id%>/cancel?_method=PUT" method="POST">
+                                                <button> <a class="dropdown-item text-danger">Cancel</a></button>
+                                            </form>
+                                        <li>
+                                            <form action="/restaurant/order/<%-x?._id%>/delete?_method=DELETE" method="POST">
+                                                <button> <a class="dropdown-item text-danger">Delete</a></button>
+                                            </form>
+                                        </li>   
+                                    </ul>
+                                </div>
+                </div>
+                <% x.userItem.forEach(function(y){%>
+                    <div class="d-flex flex-column gap-3 mb-3">
+                        <div class="d-flex align-items-center">
+                            <img src="<%=y?.itemId?.imageLink %>" class="me-3" alt="Phone Image" style="width: 60px;">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">
+                                    <%=y?.itemId?.name %>
+                                </h6>
+                                <div class="text-muted small">&#8377;<%=y?.itemId?.price %> × <%=y?.quantity %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%}) %>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-end">
+                                <div class="fw-bold">
+                                    &#8377; <%=x.TotalPrice/100 %>
+                                </div>
+                                <button class="btn btn-outline-secondary btn-sm mt-1"><a
+                                        href="/restaurant/order/<%=x._id %>">order details</a></button>
+                            </div>
+
+                        </div>
+
+            </div>
+            <%}) %>
+    </div>

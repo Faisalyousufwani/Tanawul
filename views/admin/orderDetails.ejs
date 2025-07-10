@@ -1,0 +1,75 @@
+<%- layout("/layouts/admin-layout") %>
+<div class="container-fluid px-0">
+  <div class="order-box ">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4>Order Details</h4>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Order ID:</strong> <%=orderDetails._id %></p>
+        <p><strong>Date of Purchase:</strong><%=orderDetails.orderDate %> </p>
+        <p><strong>Payment Status:</strong> <span class="label-success">Successful</span></p>
+        <p><strong>Amount:</strong><%=orderDetails.TotalPrice %></p>
+        <p><strong>Payment Method:</strong> Cash On Delivery</p>
+        <p><strong>Delivery Status:</strong> <span class="label-pending">Pending</span></p>
+        <p><strong>Estimated Delivery Date:</strong> N/A</p>
+      </div>
+
+      <div class="col-md-6">
+        <h6 class="section-title">Customer Details</h6>
+        <p><strong>Full Name:</strong><%=profileDetails?.personalInfo?.firstName %></p>
+        <p><strong>Email:</strong><%=profileDetails?.userId?.email %> </p>
+        <p><strong>Phone:</strong> <%=profileDetails?.personalInfo?.contact %></p>
+        <p><strong>Order Note:</strong> Leave the package at the door</p>
+
+        <h6 class="section-title">Shipping Information</h6>
+        <p><strong>Email:</strong> <%=orderDetails.customer.email %></p>
+        <p><strong>Phone:</strong> <%=orderDetails.customer.contact %></p>
+        <p><strong>Address:</strong> <%=orderDetails.address.city %></p>
+      </div>
+    </div>
+
+    <h6 class="section-title">Items (3)</h6>
+    <table class="table table-bordered mt-2">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+       <tbody>
+       <% orderDetails.userItem.forEach(function(x){%>
+       
+        <tr>
+          <td>
+            <div class="d-flex align-items-center">
+              <img src="<%=x.itemId.imageLink %>" alt="Walkie-Talkie" class="item-img">
+              <span class="item-name"><%=x.itemId.name %></span>
+            </div>
+          </td>
+          <td><%=x.quantity %></td>
+          <td>&#8377;<%=x.itemId.price %></td>
+          
+        </tr>
+      
+        <%}) %>
+        </tbody>
+    </table>
+       
+
+    <h6 class="section-title">Payment Details</h6>
+    <table class="table">
+      <tbody>
+        <tr><th>Subtotal</th><td>&#8377;<%=orderDetails.TotalPrice %></td></tr>
+        <tr><th>Discount</th><td>&#8377;0</td></tr>
+        <tr><th>Shipping Fee</th><td>&#8377; 10</td></tr>
+        <tr><th>Tax</th><td>&#8377;5</td></tr>
+        <tr><th>Grand Total</th><td><strong>&#8377;<%=Number(orderDetails.TotalPrice)+15 %></strong></td></tr>
+      </tbody>
+    </table>
+   
+  </div>
+</div>
+

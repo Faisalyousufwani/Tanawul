@@ -1,0 +1,78 @@
+<% layout("/layouts/boilerplate.ejs") -%>
+    <section class="menu-section">
+        <div class="text-container">
+            <p class="sub-top">Our menu</p>
+            <span class="top">Menu That Always Makes You Fall In Love</span>
+        </div>
+        <div class="menus">
+            <div class="menuBar">
+                <form action="/menu/all" method="get">
+                    <Button class="my-btn btn-menu" id="all"><img src="/assets/Pizza.png" alt="">All</Button>
+                </form>
+                <form action="/menu/pizza" method="get">
+                    <Button class="my-btn btn-menu" id="pizza1"><img src="/assets/Pizza.png" alt="">Pizza</Button>
+                </form>
+                <form action="/menu/burger" method="get">
+                    <Button class="my-btn btn-menu" id="burger1"><img src="/assets/bu4ger.png" alt="">Burger</Button>
+                </form>
+
+                <form action="/menu/desert" method="get">
+                    <Button class="my-btn btn-menu" id="cupCake1"><img src="/assets/cupcake.png" alt="">Deserts</Button>
+                </form>
+
+                <form action="/menu/sushi" method="get">
+                    <Button class="my-btn btn-menu" id="iceCream1" onclick="show('iceCream')"><img
+                            src="/assets/ice-cream.png" alt="">Sushi</Button>
+                </form>
+
+                <form action="/" method="get">
+                    <Button class="my-btn btn-menu" id="noodle1"><img src="/assets/ramen.png" alt="">Noodles</Button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <main class="show-wrapper">
+        <aside class="filter">
+            <!-- <h2>filter related ....</h2>
+            <button>fiter</button>
+            <button>Sort By</button> -->
+        </aside>
+        <div class="item-container">
+            <% for(x of item) {%>
+                <% for(y of x?.foods) {%>
+                <div class="card" style="width: 18rem;">
+                    <a href="#" class="d-block mb-3">
+                        <img src="<%=y.imageLink %>" class="card-img-top" alt="...">
+                      </a>
+                    
+                    <div class="card-body">
+                      <h5 class="card-title"><%=y.name %></h5>
+                      <p class="card-text">&#8377;<%=y.price %></p>
+                      <!-- <a href="/order/checkout/<%=y._id %>" class="btn btn-danger">Order Now</a> -->
+                      <button class=" btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal" onclick="addToCart('<%=y._id%>','<%=x?.resId%>')" >Add to Cart</button>
+                            <!-- model start -->
+                            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Success</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      Added to Cart
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn-form btn-secondary"><a href="/cart">view Cart</a></button>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- model end -->
+                    </div>
+                  </div>
+                   <% } %>
+            <% } %>
+        </div>
+        
+    </main>
+    

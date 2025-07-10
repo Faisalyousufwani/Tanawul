@@ -1,0 +1,114 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+    <Head>
+        <link rel="stylesheet" href="/css/checkout.css">
+    </Head>
+<div class="checkout-wrapper"> 
+<div class="checkout-section">
+    <div class="item-No">1</div>
+    <p class="checkout-heading">Customer Information</p>
+    <form action="/order/<%=item._id %>" method="post">
+    <div class="checkout-customer">
+   
+        <label for="firstname">First Name</label>
+        <label for="lastname">Last Name</label>
+        <input type="text" id="firstname" name="Customer[firstname]" required>
+        <input type="text" id="lastname" name="Customer[lastname]">
+        <label class="checkout-phone-label" for="phone" >Phone Number</label>
+        <input class="checkout-phone" type="number" id="phone" name="Customer[contact]" required>
+        <label for="email">email</label>
+        <input class="checkout-email" type="email" id="email" name="Customer[email]">
+    </div>
+    <hr>
+    <div class="item-No">2</div>
+
+    <p class="checkout-heading">Shipping Address</p>
+    <div class="checkout-address">
+        <label for="street">Street Address</label>
+        <input type="text" name="Address[streetAddress]" id="street" required>
+        <label for="apartment">Apartment,building,house</label>
+        <input type="text" name="Address[house]" id="apartment" required>
+        <div class="parts-3">
+            <label for="city" >City</label>
+            <label for="state" >state</label>
+            <label for="pin">Pin code</label>
+            <input type="text" name="Address[city]" id="city" required>
+            <input type="text" name="Address[state]" id="state" required>
+            <input type="number" name="Address[pincode]" id="pin" minlength="6" required>
+        </div>
+
+        <label class="checkout-country" for="country">Country</label>
+        <select class="checkout-country-select" name="Address[country]" id="country">
+            <option value="India" selected>India</option>
+        </select>
+
+    </div>
+    <input type="checkbox" id="checkbox1" value="yes" name="saveAddress" >Save this address for future orders<br>
+    <!-- <hr> -->
+    <div class="item-No">3</div>
+    <P class="checkout-heading">Payment Method</P>
+    <hr>
+    <div class="payment-test">
+        <label for="payments-test">payment method </label>
+        <input type="radio" value="cod" id="payments-test" name="payment">cod
+        <input type="radio" value="online" id="payments-test" name="payment" id="payment-choose">online
+        <input type="radio" value="debit/credit" id="payments-test" name="payment">card
+    </div>
+    <div class="item-No">4</div>
+    <p class="checkout-heading">Review & Place Order</p>
+    <hr>
+    <input id="checkbox" type="radio" value="yes">I agree to Terms and conditons and privacy policy
+        <button class="my-btn">Place Order &#8377;<%-totalPrice%></button>
+    </form>
+    
+</div>
+
+    <!-- order summary -->
+    <!-- join our newsletter -->
+
+<div class="summary-cart">
+       
+            <div class="cart">
+                <img src="<%= item.imageLink %>" alt="">
+                <div class="item-details">
+                    <p><%- item.name %></p>
+                    <p>&#8377;<%- item.price %></p>
+                </div>
+                
+            </div>
+            <hr>
+        
+
+    
+   
+        <h2>Order Summary</h2>
+        <div class="subTotal">
+            <span>SubTotal</span>
+            <span class="price">&#8377;<%- item.price %></span>
+        <!-- </div> -->
+        <!-- <div class="discount"> -->
+            <span>Discount()</span>
+            <span style="color: red;" class="price">&#8377;0</span>
+        <!-- </div> -->
+        <!-- <div class="deliveryFee"> -->
+            <span>DeliveryFee</span>
+            <span class="price">&#8377;0</span>
+        </div>
+        <hr>
+        <div class="checkout">
+            <input type="text" placeholder="Add promo code">
+            <button class="my-btn">Apply</button>
+            <div class="total">Total</div>
+            <div class="price">&#8377;<%-item.price%></div>
+             
+            
+            
+        </div>
+    
+</div>
+</div> 
+<script>
+    // document.getElementById("payment-choose").addEventListener("click",()=>{
+    //     document.querySelector(".checkout-payment").style.display="block"
+    // })
+</script>

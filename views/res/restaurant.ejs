@@ -1,0 +1,231 @@
+<% layout("/layouts/boilerplate") %>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            /* Light grey background similar to the image */
+            font-family: Arial, sans-serif;
+        }
+
+        .pizza-card {
+            background-color: #fff;
+            /* White card background */
+            border: none;
+            border-radius: 8px;
+            /* Slightly rounded corners */
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+            display: flex;
+            padding: 15px;
+            align-items: center;
+        }
+
+        .pizza-checkbox {
+            margin-right: 15px;
+            /* Style for a custom checkbox appearance if needed, or use Bootstrap's default */
+        }
+
+        .pizza-details {
+            flex-grow: 1;
+        }
+
+        .pizza-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .pizza-price {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .pizza-description {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0;
+            /* Remove bottom margin for the description itself */
+        }
+
+        .pizza-description .more-text {
+            color: #007bff;
+            /* Blue color for "more" */
+            cursor: pointer;
+        }
+
+        .pizza-image-section {
+            text-align: center;
+            margin-left: 15px;
+            /* Space between text and image */
+            width: 120px;
+            /* Fixed width for the image container */
+            position: relative;
+            /* For positioning button and text */
+        }
+
+        .pizza-image-section img {
+            max-width: 100px;
+            /* Max width of the pizza image */
+            border-radius: 8px;
+            /* Rounded corners for the image */
+            margin-bottom: 10px;
+        }
+
+        .add-button {
+            background-color: #dc3545;
+            /* Red background for ADD button */
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            /* Make button take full width of its container */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-button:hover {
+            background-color: #c82333;
+            /* Darker red on hover */
+        }
+
+        .customisable-text {
+            font-size: 0.75rem;
+            color: #6c757d;
+            /* Grey color for "Customisable" */
+            margin-top: 5px;
+        }
+
+        /* Custom checkbox style to look like the image */
+        .custom-checkbox-container {
+            display: inline-block;
+            position: relative;
+            padding-left: 5px;
+            /* Adjusted padding */
+            margin-bottom: 0;
+            /* Align with text */
+            cursor: pointer;
+            font-size: 22px;
+            /* Should not be needed if using an actual input */
+            user-select: none;
+            align-self: flex-start;
+            /* Align checkbox to the top */
+            margin-top: 5px;
+            /* Adjust top margin */
+        }
+
+        .custom-checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 18px;
+            /* Size of the checkbox */
+            width: 18px;
+            /* Size of the checkbox */
+            background-color: #fff;
+            border: 1px solid #ccc;
+            /* Grey border */
+            border-radius: 3px;
+            /* Slightly rounded */
+        }
+
+        .custom-checkbox-container:hover input~.checkmark {
+            background-color: #f1f1f1;
+            /* Light grey on hover */
+        }
+
+        .custom-checkbox-container input:checked~.checkmark {
+            background-color: #fff;
+            /* White when checked */
+            border: 1px solid #28a745;
+            /* Green border when checked */
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-checkbox-container input:checked~.checkmark:after {
+            display: block;
+        }
+
+        .custom-checkbox-container .checkmark:after {
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid #28a745;
+            /* Green checkmark */
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    </style>
+    </head>
+
+    <body>
+
+        <div class="container mt-5">
+
+            <% for(t of resData?.foods){ %>
+                <div class="pizza-card">
+
+                    <div class="pizza-details">
+                        <div class="pizza-name">
+                            <%=t.name %>
+                        </div>
+                        <div class="pizza-price">&#8377;<%=t.price %>
+                        </div>
+                        <div class="pizza-description">
+                            Pizza topped with our herb-infused signature pan sauce and 100% mozza rella cheese. A
+                            classic treat for all cheese lovers out there!
+                        </div>
+                    </div>
+                    <div class="pizza-image-section">
+                        <img src="<%=t.imageLink %>" alt="<%=t.name %>">
+                        <button class="btn add-button" id="cartAdd" data-bs-toggle="modal" data-bs-target="#myModal" onclick="addToCart('<%=t._id%>','<%=resData?.resId%>')">ADD</button>
+
+                            <!-- model start -->
+                            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Success</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      Added to Cart
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn-form btn-secondary"><a href="/cart">view Cart</a></button>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- model end -->
+
+                    </div>
+
+                </div>
+                <% } %>
+
+        </div>
+
+    </body>
+  

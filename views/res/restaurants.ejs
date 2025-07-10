@@ -1,0 +1,84 @@
+<% layout("/layouts/boilerplate.ejs") %>
+  <style>
+    .category-menu button {
+      border: none;
+      background: none;
+      font-weight: 500;
+      margin-right: 15px;
+      color: #333;
+    }
+    .category-menu button.active {
+      color: rgb(232, 67, 67);
+      border-bottom: 2px solid rgb(215, 81, 33);
+    }
+    .col-md-4 a{
+      text-decoration: none;
+    }
+    .food-card img {
+      height: 180px;
+      object-fit: cover;
+    }
+    .heart-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: white;
+      border-radius: 50%;
+      padding: 5px;
+    }
+    .heart{
+      height: 20px !important;
+    }
+    .food-card {
+      position: relative;
+    }
+  </style>
+</head>
+
+ <p class="top">Nearby restaurants</p>
+        <p class="sub-top">Discover Nearby restaurants </p>
+  <div class="container py-4">
+    <!-- Category Menu -->
+    <div class="d-flex category-menu mb-4">
+      <button class="active">Nearby</button>
+      <!-- <button>Promotion</button>
+      <button>Newcomers</button>
+      <button>Best Sellers</button>
+      <button>Top Rated</button>
+      <button>All</button> -->
+    </div>
+    
+    <!-- Food Cards Grid -->
+    <div class="row g-4">
+      <!-- Card 1 -->
+       <% for(x of restaurants){ %>
+      <div class="col-md-4">
+        <a href="/public/<%=x.resId %>">
+         
+        <div class="card food-card">
+          <img src="<%=x.imageLink %>" class="card-img-top" alt="Burger">
+          <div class="heart-icon">
+            <img class="heart" src="https://img.icons8.com/fluency-systems-regular/20/like--v1.png">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"><%=x.title %></h5>
+            <% for(y of x?.foods){ %>
+            <small class="fs-6 text-muted mb-1">
+                <%=y.name %>
+                |
+            </small>
+
+            <% } %>
+            <p class="fw-bold"><%=x.rating %></p>
+            <small><%=x.location.address %></small>
+          </div>
+        </div>
+        </a>
+      </div>
+    <% } %>
+      
+
+    </div>
+    
+  </div>
+

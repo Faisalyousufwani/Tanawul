@@ -1,0 +1,18 @@
+<% layout("/layouts/boilerplate") %>
+
+<form action="/public/restaurant/new" method="post" enctype="multipart/form-data">
+    <div class="checkout-customer">
+        <label for="firstname" class="form-label">Title<span class="text-danger">*</span></label>
+        <label for="lastname" class="form-label">Location<span class="text-danger">*</span></label>
+        <input type="text" id="firstname" name="Restaurant[title]" required>
+        <input type="text" id="lastname" name="Restaurant[location]">
+        <label class="checkout-phone-label" for="phone" class="form-label">Phone Number<span class="text-danger">*</span></label>
+        <input class="checkout-phone" type="number" id="phone" name="Restaurant[contact]" required minlength="10"
+            maxlength="10">
+        <label for="time" class="form-label">Time<span class="text-danger">*</span></label>
+        <label for="image" class="form-label">image <span class="text-danger">*</span></label>
+        <input type="text" id="time" name="Restaurant[time]">
+        <input type="file" name="Restaurant[image]" id="image">
+    </div>
+    <button type="submit">Submit</button>
+</form>

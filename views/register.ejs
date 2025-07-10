@@ -1,0 +1,48 @@
+<% layout("/layouts/boilerplate.ejs") -%>
+<div id="outputMessage" style="text-align: center;">
+    </div>
+<div class="register">
+    
+    <div class="signIn ">
+        <p class="my-center my-Heading">Sign in</p>
+        <form action="/auth/login" method="post" >
+            <input type="email" placeholder="Email" name="email">
+            <input type="password" placeholder="password" name="password" autocomplete="current-password">
+            <span class="forget-password"><a href="/auth/forget-password">Forget Your Password</a></span>
+            <button class="my-btn btn-form">SIGN IN</button>
+        </form>
+    </div>
+    <div class="signUp">
+
+        <p id="text1">Enter your details to start the journey with us</p>
+        <button class="btn-form" id="btn-one">SIGN UP</button>
+        <form >
+            <button class="btn-form my-invisible logIn2"  >LOG IN</button>
+        </form>
+        
+    
+    </div>
+    <div class="signUp-2 my-invisible">
+        <p class="my-center my-Heading">Create Account</p>
+        
+        <form method="post" action="/auth/signup">
+            <fieldset id="section1">
+            <input type="email" placeholder="Email" name="email">
+            <button id="sendOtp" class="my-btn btn-form" type="button">Send Otp</button>
+             </fieldset>
+             <fieldset id="section2">
+            <input type="text" name="otp" id="otp" placeholder="enter otp">
+           <button id="verifyOtp" class="my-btn btn-form" type="button">Verify Otp</button>
+           </fieldset>
+            <input type="password" placeholder="password" name="password" >
+            <p>Enter your details to start the journey with us</p>
+           
+             
+             <!-- <button id="VerifyOtp" class="my-btn btn-form">Verify Otp</button> -->
+            <button class="my-btn btn-form" >Sign Up</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/otpService.js" ></script>
+<script src="/js/login.js"></script>

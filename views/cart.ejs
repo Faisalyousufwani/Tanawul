@@ -1,0 +1,50 @@
+
+<% layout("/layouts/boilerplate.ejs") -%>
+    <h2 class="my-Heading">Your Cart</h2>
+    <div class="cart-container">
+       
+        <% for(item of items){ %>
+            <div class="cart">
+                <img src="<%= item.imageLink %>" alt="">
+                <div class="item-details">
+                    <p><%- item.name %></p>
+                    <p>&#8377;<%- item.price %></p>
+                </div>
+                <div class="change">
+                    <i class="fa-solid fa-trash" style="color: red;" onclick="deleteCartItem('<%=JSON.stringify(item._id)%>')" ></i>
+                    <div class="increase">
+                        <i class="fa-solid fa-plus" onclick="addToCart2('<%=JSON.stringify(item._id)%>')"></i>
+                        <span>
+                            <%= item.quantity %>
+                        </span>
+                        <i class="fa-solid fa-minus" onclick="removeFromCart2('<%= JSON.stringify(item._id)%>')"></i>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <% } %>
+
+    </div>
+    <div class="summary">
+        <h2>Order Summary</h2>
+        <div class="subTotal">
+            <span>SubTotal</span>
+            <span class="price">&#8377;<%= totalPrice %></span>
+        <!-- </div> -->
+        <!-- <div class="discount"> -->
+            <span>Discount()</span>
+            <span style="color: red;" class="price">&#8377;0</span>
+        <!-- </div> -->
+        <!-- <div class="deliveryFee"> -->
+            <span>DeliveryFee</span>
+            <span class="price">&#8377;0</span>
+        </div>
+        <hr>
+        <div class="checkout">
+            <div class="total">Total</div>
+            <div class="price">&#8377;<%- totalPrice %></div>
+            <button class="my-btn checkBtn"><a href="/checkout">Checkout</a></button>
+            
+        </div>
+    </div>
+   

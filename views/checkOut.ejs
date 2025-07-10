@@ -1,0 +1,245 @@
+<% layout("/layouts/boilerplate.ejs") %>
+    <div id="errorContainer" style="background-color: rgb(207, 131, 131);">
+
+    </div>
+    <div class="checkout-wrapper">
+        <div class="checkout-section">
+            <div class="item-No">1</div>
+            <p class="checkout-heading">Customer Information</p>
+            <form action="/order" method="post">
+                <div class="checkout-customer">
+                    <label for="firstname" class="form-label">First Name<span class="text-danger">*</span></label>
+                    <label for="lastname" class="form-label" class="form-label">Last Name</label>
+                    <input type="text" id="firstname" name="firstname" value="<%-AddressProfile?.name %>" required>
+                    <input type="text" id="lastname" name="lastname">
+                    <label class="checkout-phone-label" for="phone" class="form-label" class="form-label">Phone
+                        Number<span class="text-danger">*</span></label>
+                    <input class="checkout-phone" type="number" id="phone" name="contact"
+                        value="<%-AddressProfile?.contact %>" minlength="10" maxlength="10" required>
+                    <label for="email" class="form-label" class="form-label">email<span
+                            class="text-danger">*</span></label>
+
+                    <input class="checkout-email" type="email" id="email" name="email"
+                        value="<%-AddressProfile?.email %>">
+                </div>
+                <hr>
+                <div class="item-No">2</div>
+
+                <p class="checkout-heading">Shipping Address</p>
+                <div class="checkout-address">
+                    <label for="street" class="form-label" class="form-label">Street Address<span
+                            class="text-danger">*</span></label>
+                    <input type="text" name="streetAddress" id="street" value="<%-AddressProfile?.street %>" required>
+                    <label for="apartment" class="form-label" class="form-label">Apartment,building,house<span
+                            class="text-danger">*</span></label>
+                    <input type="text" name="house" id="apartment" value="<%-AddressProfile?.houseNumber %>" required>
+                    <div class="parts-3">
+                        <label for="city" class="form-label" class="form-label">City<span
+                                class="text-danger">*</span></label>
+                        <label for="state" class="form-label" class="form-label">state<span
+                                class="text-danger">*</span></label>
+                        <label for="pin" class="form-label" class="form-label">Pin code<span
+                                class="text-danger">*</span></label>
+                        <input type="text" name="city" id="city" value="<%-AddressProfile?.city %>" required>
+                        <input type="text" name="state" id="state" value="<%-AddressProfile?.state %>" required>
+                         <!-- <select class="checkout-country-select" name="state" id="state" required>
+                        <option value="jammu and kahmir" selected>J & K</option>
+                    </select> -->
+                        <input type="text" name="pincode" id="pin" value="<%-AddressProfile?.pincode %>" minlength="6"
+                            maxlength="6" required>
+                    </div>
+
+                    <label class="checkout-country" for="country">Country</label>
+                    <select class="checkout-country-select" name="country" id="country" required>
+                        <option value="India" selected>India</option>
+                    </select>
+
+                </div>
+                <label for="checkbox">is this your default address-profile</label>
+                <input type="checkbox" id="checkbox" value="yes" name="defaultProfile"><br>
+
+
+                <label>Do yo want to save this address!</label>
+                <input type="radio" id="radio2" value="no" name="saveAddress">
+                <label for="radio2">No</label>
+                <input type="radio" id="radio1" value="yes" name="saveAddress">
+                <label for="radio1">yes</label><br>
+                <!-- <hr> -->
+                <!-- <div class="item-No">3</div>
+                <P class="checkout-heading">Payment Method</P>
+                <hr> -->
+                <!-- <div class="payment-test">
+                    <label for="payments-test">payment method </label>
+                    <input type="radio" value="cod" id="payments-test" name="payment">cod
+                    <input type="radio" value="online" id="payments-test" name="payment" id="payment-choose">online
+                    <input type="radio" value="debit/credit" id="payments-test" name="payment">card
+                </div> -->
+
+                <!-- <div class="item-No">3</div>
+                <p class="checkout-heading">Review & Place Order</p> -->
+                <hr>
+                <!-- <input id="checkbox" type="radio" value="yes" name="agree">I agree to Terms and conditons and privacy policy -->
+                <button class="my-btn">Place Order(cash on Delivery) &#8377;<%-totalPrice %></button>
+                <button class="my-btn" id="payBtn" style="margin-top: 20px;">Place Order (payment Online) &#8377;<%-totalPrice %></button>
+
+        </div>
+        <!-- order summary -->
+        <!-- join our newsletter -->
+
+        <div class="summary-cart">
+            <% for(item of items){ %>
+                <div class="cart">
+                    <img src="<%= item.imageLink %>" alt="">
+                    <div class="item-details">
+                        <p><%- item.name %></p>
+                        <p>&#8377;<%- item.price %></p>
+                    </div>
+                    <div class="change">
+                        <i class="fa-solid fa-trash" style="color: red;"
+                            onclick="deleteCartItem('<%=JSON.stringify(item._id)%>')"></i>
+                        <div class="increase">
+                            <i class="fa-solid fa-plus" onclick="addToCart2('<%=JSON.stringify(item._id)%>')"></i>
+                            <label for="quantity"></label>
+                            <input type="number" id="quantity" name="quantity" value="<%= item.quantity %>">
+                            <i class="fa-solid fa-minus"
+                                onclick="removeFromCart2('<%= JSON.stringify(item._id)%>')"></i>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <% } %>
+
+                    <h2>Order Summary</h2>
+                    <div class="subTotal">
+                        <span>SubTotal</span>
+                        <span class="price">&#8377;<%- totalPrice %></span>
+                        <!-- </div> -->
+                        <!-- <div class="discount"> -->
+                        <span>Discount()</span>
+                        <span style="color: red;" class="price">&#8377;0</span>
+                        <!-- </div> -->
+                        <!-- <div class="deliveryFee"> -->
+                        <span>DeliveryFee</span>
+                        <span class="price">&#8377;0</span>
+                    </div>
+                    <hr>
+                    <div class="checkout">
+                        <!-- <input type="text" placeholder="Add promo code">
+                        <button class="my-btn">Apply</button> -->
+                        <div class="total">Total</div>
+                        <div class="price">&#8377;<%-totalPrice %></div>
+                    </div>
+                    </form>
+
+        </div>
+
+        <!-- Modal for errors -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2>Validation Errors</h2>
+            <ul id="errorList"></ul>
+        </div>
+    </div>
+    </div>
+
+    
+
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.getElementById("payBtn").addEventListener("click", async (e) => {
+            e.preventDefault()
+            let Data = {}
+            const inputAll = document.querySelectorAll('input')
+            // const saveAddress=document.querySelector('input[name="saveAddress"]')?.value
+            // console.log(inputAll)
+            inputAll.forEach((input) => {
+                if (input.type === "radio") {
+                    if (input.checked) {
+                        Data[input.name] = input.value
+                    }
+
+                } else if (input.type === "checkbox") {
+                    if (input.checked) {
+                        Data[input.name] = input.value
+                    }
+                }
+                else {
+                    Data[input.name] = input.value;
+                }
+
+
+
+            })
+            // console.log(JSON.stringify(Data)+"data")
+            try {
+                const res = await fetch("/payment/process", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(Data)
+                })
+                const order = await res.json()
+                console.log(order)
+                if (!order.success) {
+                    // const errorContainer=document.getElementById("errorContainer")
+                    // errorContainer.innerHTML=''//first clearing
+                    // order.errors.forEach((error)=>{
+                    //     const errorElement=document.createElement("p")
+                    //     errorElement.textContent=error.msg
+                    //     errorContainer.appendChild(errorElement)
+
+                    // Display errors in modal
+                    const errorList = document.getElementById('errorList');
+                    errorList.innerHTML = ''; // Clear previous errors
+                    order.errors.forEach((error) => {
+                        const li = document.createElement('li');
+                        li.textContent = error.msg;
+                        errorList.appendChild(li);
+
+                    })
+                     // Show modal
+                    document.getElementById('errorModal').style.display = 'block';
+                    return;
+                }
+
+              var options = {
+                    key: "<%=process.env.RAZORPAY_KEY_ID%>",
+                    currency: order.currency,
+                    amount: order.amount,
+                    order_id: order.orderId,
+                    name: "Tanawul",
+                    description: "test transaction",
+                    handler: async function (response) {
+                        console.log(response)
+                        fetch("/payment/verify", {
+                            method: "POST",
+                            headers: { "content-type": "application/json" },
+                            body: JSON.stringify(response)
+                        }
+                        ).then((res) => res.text()).then((data) => document.body.innerHTML = data)
+                    }
+                }
+                console.log(options)
+                var rzp = new Razorpay(options)
+                rzp.open()
+
+            } catch (error) {
+                console.log(error)
+            }
+
+        })
+
+                  // Close modal function
+    function closeModal() {
+      document.getElementById('errorModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function (event) {
+      const modal = document.getElementById('errorModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
+    </script>

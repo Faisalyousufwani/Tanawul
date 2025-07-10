@@ -1,0 +1,34 @@
+{
+  "name": "food-delivery",
+  "version": "1.0.0",
+  "description": "Food delivery web application as our final sem project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+   
+  },
+  "author": "Faisal",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cloudinary": "^2.6.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.12.1",
+    "multer": "^2.0.0",
+    "nodemailer": "^7.0.3",
+    "razorpay": "^2.9.6",
+    "uuid": "^11.1.0"
+  }
+}

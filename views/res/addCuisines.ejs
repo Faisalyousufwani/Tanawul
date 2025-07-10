@@ -1,0 +1,27 @@
+<% layout("/layouts/res-admin") %>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" ,style = "padding-top :76px">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style = "padding-top :56px">
+        <h1 class="h2">Welcome, <%= typeof user !== 'undefined' ? user.username : 'Admin' %></h1>
+        <div >
+         <form action="/restaurant/cuisines/add" method="post" enctype="multipart/form-data">
+           
+                        <label for="category">category</label>
+                        <select id="category" name="Restaurant[foods][category]">
+                            <option value="pizza">pizza</option>
+                            <option value="biryani">biryani</option>
+                            <option value="burger">burger</option>
+                            <option value="desert">Desert</option>
+                        </select>
+                        <input type="text" placeholder="name" name="Restaurant[foods][name]">
+
+                        <input type="number" placeholder="price" name="Restaurant[foods][price]">
+                        <input type="file" placeholder="image" name="Restaurant[foods][imageLink]">
+                        <button>Submit</button>
+                    </form>
+                  
+        </div>
+      
+    </div>
+
+
+     
