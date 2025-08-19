@@ -3,7 +3,7 @@ import Restaurant from "../models/restaurant.js"
 import Item from "../models/items.js"
 import fs from "fs"
 import User from "../models/user.model.js"
-import Order from "../models/user.orders.js"
+import Order from "../models/order.model.js"
 import Profile from "../models/user.profile.model.js"
 import cloudinary from "../../config/cloudinary.js"
 import { cancelOrderService, changeStatusService, orderInfoService } from "../services/admin.order.Service.js"
@@ -26,8 +26,7 @@ export const restaurantAdmin = async (req, res) => {
     })
 }
 export const addCuisines = async (req, res) => {
-    //restaurant admin router for adding dishes
-    // const{id}=req.params
+   
     const { id } = req.user
     const { foods } = req.body.Restaurant
     // const errors = validationResult(req)
@@ -117,7 +116,6 @@ export const resOrders = async (req, res) => {
         user: req.session.adminUser,
         orderData: orders
     })
-
 }
 export const resOrderDetail = async (req, res) => {
     const { id } = req.params
@@ -142,6 +140,24 @@ export const changeStatus = async (req, res) => {
         changeStatusService(orderId, status, userId)
     } catch (error) {
         console.log(error.message)
+    }
+}
+
+export const editRestaurant = async () => {
+    //admin route
+    try {
+        const { id } = req.params
+
+        const { Restaurant } = req.body
+        const restaurant = await Restaurant.findOne({ resId: id })
+        if (!restaurant) {
+            req.flash("error", "restaurant not found")
+            return res.redirect("/restaurant/admin")
+
+        }
+
+    } catch (error) {
+
     }
 }
 

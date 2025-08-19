@@ -2,51 +2,40 @@ import mongoose from "mongoose"
 
 const Schema = mongoose.Schema
 
-const addressSchema = Schema({
-
-    fullName: {
+const couponSchema = Schema({
+    name : {
         type : String,
         required : true
     },
 
-    mobile : {
+    description : {
+        type : String,
+        required : true
+    },
+
+    startingDate : {
+        type : Date,
+        required : true
+    },
+    
+    expiryDate : {
+        type : Date,
+        required : true
+    },
+
+    minimumAmount : {
         type : Number,
         required : true
     },
 
-    landmark :{
-        type : String,
-        required : true
-    },
-
-    street : {
-        type : String,
-        required : true
-    },
-
-    village : {
-        type : String,
-        required : true
-    },
-
-    city : {
-        type : String,
-        required : true
-    },
-
-    pincode : {
+    discount : {
         type : Number,
         required : true
     },
 
-    state : {
+    discountType : {
         type : String,
         required : true
-    },
-
-    country : {
-        type : String,
-        requred : true
     },
 
     status : {
@@ -55,11 +44,12 @@ const addressSchema = Schema({
         required : true
     },
 
-    userId : {
+    users : [{
         type : mongoose.Schema.Types.ObjectId,
-        ref:"User"
-    }
+        ref : 'User'
+    }]
 
 })
-const Address=mongoose.model("Address",addressSchema)
-export default Address
+
+const Coupon = mongoose.model("Coupon",couponSchema)
+export default Coupon

@@ -13,7 +13,7 @@ const restaurantSchema= new mongoose.Schema({
     foods:[
         {
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Item"
+        ref:"Product"
         }
     ],
     time:{

@@ -1,146 +1,197 @@
-
-import Restaurant from "../models/restaurant.js"
-import User from "../models/user.model.js"
-import Profile from "../models/user.profile.model.js"
-import Order from "../models/user.orders.js"
-import { cancelOrderService, orderInfoService } from "../services/admin.order.Service.js"
-export const admin = (req, res) => {
-  res.render("admin/dashboard.ejs", {
-    stats: {},
-    recentOrders: [],
-    title: 'Dashboard-Tanawul Admin',
-    user: req.session.adminUser
-
-  })
-}
-export const allOrders = async (req, res) => {
-  const allOrders = await Order.find().populate("userItem.itemId");
-  console.log(allOrders)
-  res.render("admin/orders.ejs", {
-    stats: {},
-    recentOrders: [],
-    title: 'Dashboard-Tanawul Admin',
-    user: req.session.adminUser,
-    orderData: allOrders
-  })
-}
-export const orderInfo = async (req, res) => {
-  //seperate orderinfo for restaurant and admin without orderInfoService
-  const { id } = req.params
-  const customerId = req.user.id;
-  const{orderDetails,profileDetails}=orderInfoService(id, customerId)
-  res.render("admin/orderDetails.ejs", {
-    stats: {},
-    recentOrders: [],
-    title: 'Dashboard-Tanawul Admin',
-    user: req.session.adminUser,
-    orderDetails, profileDetails
-  })
-}
-export const cancelOrder = async (req, res) => {
-  //seperate cancel for restaurant and admin
-  const { id } = req.params
-  // const order=await Order.findById(id)
-  // if(!order){
-  //   req.flash("error","order not found")
-  //   return res.redirect("/admin/order/all")
-  // }
-  // if(order.status=="cancelled"){
-  //   return res.send("already cancelled")
-  // }
-  // if(order.status=="shipped"){
-  //   return res.send("order is shipped can't be cancelled")
-  // }
-  // order.status="cancelled"
-  // await order.save()
-  cancelOrderService(id)
-  res.redirect("/admin/order/all")
-
-}
-export const deleteOrder = async (req, res) => {
-  const { id } = req.params
-  const order = await Order.findByIdAndDelete(id)
-  req.flash("success", "order deleted successfully")
-  res.redirect("/admin/order/all")
+import User from '../models/user.model.js'
+import Order from '../models/order.model.js'
+import Product from '../models/productModel.js'
+import {USERS_PER_PAGE} from "../utils/paginationHelper.js"
+import {currentMonthRevenue,previousMonthRevenue,paymentMehtodAmount,todIncome,yestIncome,totRevenue,dailyChartt,categorySaless} from "../utils/dashboardHelpers.js"
 
 
-}
-export const approveRestaurant = async (req, res) => {
-  const { id } = req.params
-  // const restaurant=await Restaurant.findOneAndUpdate({resId:id},{$set:{isApproved:true,}},{new:true}).populate("owner")
-  const restaurant = await Restaurant.findOne({ resId: id }).populate("owner")
-  const UpdatedRestaurant = await Restaurant.findOneAndUpdate({ resId: id }, { $set: { isApproved: true, } }, { new: true })
-  const user = await User.findByIdAndUpdate(restaurant.owner._id, { $set: { role: 'vendor' } }, { new: true })
-  res.redirect("/admin/restaurant/list")
-
-}
-export const restaurantList=async(req,res)=>{
-    const allRestaurants=await Restaurant.find().populate({path:"foods"} ).populate("owner")
-    // const filterAllRestaurants=allRestaurants.filter((x)=>x.isApproved==false)
-    // return res.send(allRestaurants)
-    // res.render("res/restaurantList.ejs",{allRestaurants})
-    res.render("res/restaurantList.ejs",{ 
-            stats: {},
-            recentOrders: [],
-            title: 'Dashboard-Tanawul Admin',
-            user: req.session.adminUser,
-            allRestaurants
-        })
-}
-export const deleteRestaurant = async (req, res) => {
-  //admin route
-  const { resId } = req.params;
-  console.log(resId)
-  const delRes = await Restaurant.deleteOne({ resId: resId })
-  //post delete its foods
-
-  res.redirect("/admin/restaurant/list")
-}
-
-export const allCustomers=async(req,res)=>{
-      const users=await User.find({role:'customer'})
-        // const customerList=await Profile.find().populate("userId","-password")
-        // console.log(AllUserProfiles )
-        // res.send(customerList)
-         res.render("admin/customerList.ejs",{ 
-            stats: {},
-            recentOrders: [],
-            title: 'Dashboard-Tanawul Admin',
-            user: req.session.adminUser,
-                customerList:users
-        })
-}
-export const customerOrders=async(req,res)=>{
+export const getAdminHome = async( req, res ) => {
+        
         try {
-    const {id} = req.params;
+            // console.log("hitttt")
+            const today = new Date();
+            today.setHours( 0, 0, 0, 0 )
+            const yesterday = new Date(today)
+            yesterday.setDate( today.getDate() - 1 );
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth();
+            const currentMonthStartDate = new Date(currentYear, currentMonth, 1, 0, 0, 0);
+            const previousMonthStartDate = new Date(currentYear, currentMonth - 1, 1, 0, 0, 0);
+            const previousMonthEndDate = new Date(currentYear, currentMonth, 0, 23, 59, 59);
+            
+            
+            const promises = [
+                currentMonthRevenue( currentMonthStartDate, now ),
+                previousMonthRevenue( previousMonthStartDate, previousMonthEndDate ),
+               
+                paymentMehtodAmount(),
+            //   todayIncome(today,now),
+            todIncome(today,now),
+               yestIncome(today,yesterday),
+                // yesterdayIncome( today, yesterday ),
+                // totalRevenue(),
+                totRevenue(),
+                Order.find({ orderStatus : "Confirmed" }).countDocuments(),
+                Order.find({ orderStatus : "Delivered" }).countDocuments(),
+                User.find({isBlocked : false, isVerified : true}).countDocuments(),
 
-    const userData = await User.findById(id);
-    const orders = await Order.find({ customerId: id })
-      .sort({ createdAt: -1 })
-      .populate("customerId", "-_id email")
-      .populate("userItem.itemId")
-      .populate("userItem", "-_id ");
-    res.render("admin/orders.ejs",{ 
-            stats: {},
-            recentOrders: [],
-            title: 'Dashboard-Tanawul Admin',
-            user: req.session.adminUser,
-           orderData:orders
-        })
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-}
-export const deleteCustomer=async(req,res)=>{
-  const{id}=req.params
-  try {
-    const user=await User.findByIdAndDelete(id)
-    //delete orders
-    res.redirect("/admin/customer/all")
+                Product.find({status : true}).countDocuments(),
+                // dailyChart(),
+                // categorySales()
+                dailyChartt(),
+                categorySaless()
+               
+                
+            ]
+            
+            const results = await Promise.all( promises )
 
-  } catch (error) {
-    
-  }
-}
+            const revenueCurrentMonth = results[0]
+            const revenuePreviousMonth = results[1]
+            const paymentMethodAmount = results[2]
+            const todayIncome = results[3]
+            const yesterdayIncome = results[4]
+            const totalRevenue = results[5]
+            const ordersToShip = results[6]
+            console.log('orders to ship'+ordersToShip)
+            const completedOrders = results[7]
+            const userCount = results[8]
+            const productCount = results[9] 
+            const dailyChart = results[10]
+            const categorySales = results[11]
+            const admin=await  User.findOne({_id:req.user.id})
+
+            const razorPayAmount = paymentMethodAmount && paymentMethodAmount.length > 0 ? paymentMethodAmount[0]?.amount.toString() : 0
+            const codPayAmount = paymentMethodAmount && paymentMethodAmount.length > 0 ? paymentMethodAmount[1]?.amount.toString() : 0
+            const monthlyGrowth = revenuePreviousMonth === 0 ? 100 : ((( revenueCurrentMonth - revenuePreviousMonth ) / revenuePreviousMonth ) * 100).toFixed(1);
+
+            const dailyGrowth = ((( todayIncome - yesterdayIncome ) / yesterdayIncome ) * 100).toFixed( 1 ) 
+            // console.log(admin) 
+            res.render( 'admin/dashboard', {
+                admin : admin,
+                todayIncome : todayIncome,
+                dailyGrowth : dailyGrowth,
+                totalRevenue : totalRevenue,
+                revenueCurrentMonth : revenueCurrentMonth,
+                monthlyGrowth : monthlyGrowth,
+                razorPayAmount : razorPayAmount,
+                codPayAmount : codPayAmount,
+                userCount : userCount,
+                ordersToShip : ordersToShip,
+                completedOrders : completedOrders,
+                productCount : productCount,
+                dailyChart : dailyChart,
+                categorySales : categorySales
+            } )
+        } catch (error) {
+            // res.redirect('/500')
+            console.log(error)
+
+        }
+
+    }
+
+export const    getUserList = async( req, res ) => {
+
+        try {
+
+            const { search, sortData, sortOrder } = req.query
+
+            let page = Number(req.query.page);
+            if (isNaN(page) || page < 1) {
+            page = 1;
+            }
+            const condition = { isAdmin : 0}
+
+            const sort = {}
+            if( sortData ) {
+                if( sortOrder === "Ascending" ){
+                    sort[sortData] = 1
+                } else {
+                    sort[sortData] = -1
+                }
+            }
+
+            if( search ) {
+                condition.$or = [
+                    { firstName : { $regex : search, $options : "i" }},
+                    { lastName : { $regex : search, $options : "i" }},
+                    { email : { $regex : search, $options : "i" }},
+                    { mobile : { $regex : search, $options : "i" }},
+                ]
+            }
+
+            const userCount = await User.find( condition ).countDocuments()
+            const userList = await User.find( condition )
+            .sort( sort ).skip(( page - 1 ) * USERS_PER_PAGE ).limit( USERS_PER_PAGE )
+
+            res.render( 'admin/userList', {
+                userList : userList,
+                admin : req.session.admin,
+                currentPage : page,
+                hasNextPage : page * USERS_PER_PAGE < userCount,
+                hasPrevPage : page > 1,
+                nextPage : page + 1,
+                prevPage : page -1,
+                lastPage : Math.ceil( userCount / USERS_PER_PAGE ),
+                search : search,
+                sortData : sortData,
+                sortOrder : sortOrder
+            } )
+            
+        } catch ( error ) {
+            // res.redirect('/500')
+            console.log(error)
+
+        }
+
+    }
+
+export const    blockUser = async ( req, res ) => {
+
+        try {
+            const userId = req.params.id
+            const userData = await User.findById( userId )
+            await userData.updateOne({ $set : { isBlocked : true }})
+
+            // Checks if the user is in same browser 
+            if( req.session.user === userId ){
+                // If user is in same browser it deletes 
+                delete req.session.user
+            }
+            
+            const sessions = req.sessionStore.sessions;
+            for ( const sessionId in sessions ) {
+            const session = JSON.parse( sessions[sessionId] );
+            if ( session.user === userId ) {
+                delete sessions[sessionId];
+                break; 
+            }
+            }
+            
+            res.json( { success : true } )
+            
+        } catch ( error ) {
+            res.redirect('/500')
+
+        }
+       
+    }
+
+export const    unBlockUser = async ( req, res ) => {
+        try {
+            
+            const userId = req.params.id
+            const userData = await User.findById( userId )
+            await userData.updateOne({ $set : { isBlocked : false }})
+
+            res.json( { success : true } )
+
+        } catch ( error ) {
+            res.redirect('/500')
+
+        }
+    }
+
+

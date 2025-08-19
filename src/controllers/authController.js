@@ -3,7 +3,7 @@ import Otp from "../models/user.otp.js";
 // import { signup } from "../services/user.register.Service.js";
 import { validationResult } from "express-validator";
 
-export const signup = async (req, res) => {
+export const doUserSignup = async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         // return res.send(errors)
@@ -39,6 +39,7 @@ export const signup = async (req, res) => {
             sameSite: 'strict',
             maxAge: 3600000//1 hr
         })
+        console.log(token)
         req.flash("success", "signUp successfull , Order now!!")
         return res.redirect("/")
     } catch (error) {
@@ -50,7 +51,7 @@ export const signup = async (req, res) => {
 
 }
 
-export const login = async (req, res) => {
+export const doUserLogin = async (req, res) => {
     const { password, email } = req.body
     try {
         const user = await User.findOne({ email })
@@ -70,7 +71,7 @@ export const login = async (req, res) => {
             sameSite: 'strict',
             maxAge: 3600000//1 hr
         })
-
+        // console.log(token)
         req.flash("success", " login success  welcome to Tanawul!")
         res.redirect("/")//generalMiddleware will run again on homepage and will check if token cookie is true or false accordingly
         // res.render("home.ejs")  
@@ -85,7 +86,7 @@ export const login = async (req, res) => {
 
 }
 
-export const logout = (req, res) => {
+export const doUserLogout = (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
         secure: true,       // required if the cookie was set with secure: true

@@ -6,7 +6,6 @@ const paymentSchema=new mongoose.Schema({
     },
     razorpayOrderId:{
         type:String,
-
     },
     razorpayPaymentId:{
         type:String,
@@ -15,7 +14,6 @@ const paymentSchema=new mongoose.Schema({
         type:String
     },
     amount: {
-      
     type: Number,
   },
   currency:{
