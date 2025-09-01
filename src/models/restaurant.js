@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const restaurantSchema= new mongoose.Schema({
-    resId:{type:String},
+    // resId:{type:String},
     title:{
         type:String,
         required:[true,'title is required']

@@ -35,10 +35,10 @@ const productSchema = Schema({
         required : true
     },
 
-    image : {
+    image :[ {
         type : String,
         default:""
-    }, 
+    }], 
 
     status : {
         type : Boolean,

@@ -1,8 +1,5 @@
-
 import mongoose from "mongoose"
-
 const Schema = mongoose.Schema
-
 const orderSchema = Schema({
 
     userId : {
@@ -11,7 +8,7 @@ const orderSchema = Schema({
         required : true
     },
 
-    products : [{
+    product : {
         productId : {
             type : mongoose.Schema.Types.ObjectId,
             ref : 'Product',
@@ -25,7 +22,7 @@ const orderSchema = Schema({
             type : Number,
             required : true
         }
-    }],
+    },
 
     totalPrice : {
         type : Number,
@@ -57,11 +54,19 @@ const orderSchema = Schema({
         ref : 'Address',
         required : true
     },
-
+    coupon:{
+        type:String
+    },
+    discount:{
+        type:Number,
+        default:0
+    },
+    razorpayOrderId:String,
     date : {
         type : Date,
         default : Date.now
     },
+   
 
 
 })

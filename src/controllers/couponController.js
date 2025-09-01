@@ -4,6 +4,9 @@ import { discountPrice } from "../utils/couponHelper.js"
 
 export const getCoupon=async(req,res)=>{
     try {
+         if(req.user.role==='vendor'){
+                console.log("vendor")
+            }
         const { search, sortData, sortOrder } = req.query
         const condition = {}
 
@@ -138,7 +141,7 @@ export const applyCoupon=async(req,res)=>{
                     res.json({ success: false, message: 'Coupon already used by the user' })
                 } else {
                     // Checking minimum Amount
-                    console.log(total+"total")
+                   
                     if (total < coupon[0].minimumAmount) {
                         res.json({ success: false, message: 'Minimums amount not reached' })
                     } else {

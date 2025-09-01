@@ -4,17 +4,12 @@ import Product from "../models/productModel.js";
 import Cart from "../models/cart.model.js";
 import User from "../models/user.model.js";
 import Category from "../models/categoryModel.js"
-import {updateQuantity,totalCartPrice} from "../utils/cartHelper.js"
-import {USERS_PER_PAGE,ITEMS_PER_PAGE,ORDER_PER_PAGE,PRODUCT_PER_PAGE,CATEGORY_PER_PAGE,BANNER_PER_PAGE,SALES_PER_PAGE} from "../utils/paginationHelper.js"
+import WishList from "../models/wishlistModel.js";
+import {totalCartPrice} from "../utils/cartHelper.js"
+import {ITEMS_PER_PAGE,} from "../utils/paginationHelper.js"
 import { discountPrice } from "../utils/couponHelper.js";
-//banner schema pending
+import jwt from "jsonwebtoken"
 
-// const { search } = require('../routers/shopRouter')
-
-
-
-
-    // Home page GET
 export const    getHome = async( req, res ) => {
         try {
             // const banners = await bannerSchema.find({ status : true })
@@ -45,9 +40,7 @@ export const    getHome = async( req, res ) => {
     // Shop page GET
 export const     getShop = async( req, res ) => {
         try {
-           
-           
-    
+            let wishlistedItemIds
             const { cat,brand ,search } = req.query
             let page = Number( req.query.page );
             if ( isNaN(page) || page < 1 ) {
@@ -82,19 +75,27 @@ export const     getShop = async( req, res ) => {
                     match : { startingDate : { $lte : new Date() }, expiryDate : { $gte : new Date() }}
                 }
             })
-            .populate({
-                path:'restaurant',
-            })
+            // .populate({
+            //     path:'restaurant',
+            // })
             .skip( ( page - 1 ) * ITEMS_PER_PAGE ).limit( ITEMS_PER_PAGE )  // Pagination
-             const brands = await Product.distinct( 'brand' )
+             
             const category = await Category.find({ status: true }) 
-            // const brands = await Product.distinct( 'brand' )
+            if(req.cookies.token){
+                const decoded=jwt.verify(req.cookies.token,process.env.JWT_secret)
+                const{id}=decoded
+                 const wishlist = await WishList.findOne({ userId:id }).populate('products'); // this gives full item objects
+                 wishlistedItemIds = wishlist ? wishlist.products.map(item => item._id.toString()) : [];
+                }
+           
+            
+            const brands = await Product.distinct( 'brand' )
             const startingNo = (( page - 1) * ITEMS_PER_PAGE ) + 1
             const endingNo = startingNo + ITEMS_PER_PAGE
             // res.render("menu.ejs",{item:restaurants})
             // console.log(products)
             res.render( 'shop/menu', {
-                item  : products,
+                products  : products,
                 category : category,
                 totalCount : productCount,
                 brands:brands,
@@ -108,8 +109,9 @@ export const     getShop = async( req, res ) => {
                 endingNo : endingNo,
                 brand:brand,
                 cat : cat,
-               
-                search : search
+               brand:brand,
+                search : search,
+                wishlistedItemIds
             })
               
         } catch ( error ) {
@@ -118,6 +120,7 @@ export const     getShop = async( req, res ) => {
 
         }
     }
+   
 
     // Single product GET
 export const     getSingleProduct = async( req, res ) => {

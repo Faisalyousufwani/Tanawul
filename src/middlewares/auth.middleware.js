@@ -2,11 +2,7 @@ import jwt from "jsonwebtoken"
 export const authMiddleware=(req,res,next)=>{
     const token=req.cookies.token
     if(!token ){
-        // return res.status(401).json({
-        //     message:"user unauthorised"
-        // })
-        // console.log(req)
-        // req.session.redirectUrl=req.originalUrl
+       
         req.flash("error","you need to login first");
         return res.redirect("/auth")
     }
@@ -43,6 +39,7 @@ export const generalMiddleware=(req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_secret);
+      
       res.locals.user = decoded
     } catch (err) {
       res.locals.user = false;

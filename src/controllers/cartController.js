@@ -3,7 +3,7 @@ import Product from "../models/productModel.js";
 import Coupon from "../models/couponModel.js";
 import {updateQuantity,totalCartPrice} from "../utils/cartHelper.js"
 import { discountPrice } from "../utils/couponHelper.js";
-import { json } from "express";
+
 
 
 
@@ -29,16 +29,12 @@ export const    getCart = async( req, res ) => {
                     }
                 ]
             });
-            // console.log("cart"+JSON.stringify(updatedCart,null,2))
-            // if(!updatedCart){
-            //     return res.send("cart is emmpty")
-            // }
-            // console.log(updatedCart);
+         
             
             const totalPrice = await totalCartPrice( id )
 
             if( updatedCart && updatedCart.items > 0 ){
-                console.log(updatedCart.items.length);
+                // console.log(updatedCart.items.length);
                 req.session.productCount = updatedCart.items.length
                 updatedCart.items.forEach(( items ) => {
                 
@@ -57,7 +53,6 @@ export const    getCart = async( req, res ) => {
             }
             
             const availableCoupons = await Coupon.find({ status : true , startingDate : { $lte : new Date() }, expiryDate : { $gte : new Date() } })
-            console.log("total"+JSON.stringify(totalPrice,null,2))
             res.render( 'shop/cart', {
                 cartItems : updatedCart,
                 totalAmount : totalPrice,
@@ -74,14 +69,10 @@ export const    getCart = async( req, res ) => {
 
 export const     addToCart = async ( req, res ) => {
         try {
-            
-            // checking is user logged In
             if( req.user ){
-                // If logged in
                 const {id} = req.user;
                 const{productId} = req.body
-
-                // Getting stock quantity
+        
                 const Quantity = await Product.findOne({ _id : productId }, { quantity : 1 });
                 // Checking if cart is exist
                 const cart = await Cart.findOne({ userId : id });
@@ -118,7 +109,7 @@ export const     addToCart = async ( req, res ) => {
                         // if product not exists in cart, adding new object to items array
                         } else {
                             await Cart.updateOne( { userId : id },
-                                { $push : { items : { productId : productId } } }
+                                { $push : { items : { productId : productId } }}
                                 );
                                 // increasing product count in session
                                 req.session.productCount++
@@ -132,10 +123,12 @@ export const     addToCart = async ( req, res ) => {
                         // Creating new cart for user
                         const newCart = new Cart({
                             userId: req.user.id,
-                            items : [{ productId : productId }]
+                            items : [{ productId : productId }],
+                            // vendor:restaurantId
                         });
                         await newCart.save();
                         req.session.productCount++
+                        console.log(req.session.productCount)
                         res.status( 200 ).json({
                             success : 'Added to cart',
                             login : true,
@@ -175,6 +168,7 @@ export const     decCart = async ( req, res ) => {
 
             if( updatedCart) {
             const totalPrice = await totalCartPrice( id )
+           
             const cart = await Cart.findOne({ userId : id})
 
             

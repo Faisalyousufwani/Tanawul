@@ -1,14 +1,16 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
-import Profile from "./user.profile.model.js";
+import Order from "./order.model.js";
 
 const userSchema = new mongoose.Schema({
     name:{
-        type:String
+        type:String,
+        default:""
     },
     mobile: {
-        type: Number
+        type: Number,
+        default:""
     },
     email: {
         type: String,
@@ -91,7 +93,7 @@ userSchema.methods.generateJwt = function () {
 }
 userSchema.post('findOneAndDelete', async (user) => {
     if (user) {
-        await Profile.deleteOne({ userId: user._id })
+        await Order.deleteMany({ userId: user._id })
     }
 
 

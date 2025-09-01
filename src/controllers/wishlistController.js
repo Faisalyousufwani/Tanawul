@@ -1,16 +1,21 @@
+import mongoose from "mongoose"
 import WishList from "../models/wishlistModel.js"
 
 export const    addToWishList =async ( req, res ) => {
         try {
             const { productId } = req.body
             const { id } = req.user
-            const WishList = await WishList.findOne( { userId : id })
-            if( WishList ) {
-                const exist = WishList.products.find( item => item == productId )
+            const wishlist = await WishList.findOne( { userId : id })
+            if( wishlist  ) {
+                const exist = wishlist .products.find( item => item == productId )
                 if( exist ){
-                    res.json({ message : "Product already exist"})
+                    // res.json({ message : "Product already exist"})
+                    // const remove=await wishlist.products
+                    //can remove if already exists
+                    const result=await WishList.updateOne({userId:id},{$pull:{products:new mongoose.Types.ObjectId(productId)}})
+                    return res.json({message:"product removed from wishList successfully",success:true,removed:true})
                 } else {
-                    await WishList.updateOne({ userId : user},{
+                    await WishList.updateOne({ userId : id},{
                         $push : {
                             products : productId
                         }
@@ -19,14 +24,14 @@ export const    addToWishList =async ( req, res ) => {
                 } 
             } else {
                 const newWishList = new WishList({
-                    userId : user,
+                    userId : id,
                     products : [productId]
                 }) 
                 await newWishList.save()
                 res.status(200).json({success : true ,message : "Added to WishList"})
             }
         } catch (error) {
-            res.redirect('/500')
+           console.log(error)
 
         }
     }
@@ -39,8 +44,7 @@ export const     getWishList = async( req, res ) => {
                 list : list
             })
         } catch (error) {
-            res.redirect('/500')
-
+            console.log(error)
         }
     }
 
@@ -55,7 +59,7 @@ export const     removeItem = async ( req, res ) => {
             })
             const wallet = await WishList.findOne({ userId : id })
             if ( wallet.products.length === 0 ) {
-                await WishList.deleteOne({ userId : user })
+                await WishList.deleteOne({ userId : id })
                 return res.json({ success : true, listDelete : true})
             }
             res.json({ success : true})

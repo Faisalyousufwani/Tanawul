@@ -8,6 +8,7 @@ import{CATEGORY_PER_PAGE} from "../utils/paginationHelper.js"
 
 export const    getCategory = async ( req, res ) => {
         try {
+           
             const { search, sortData, sortOrder } = req.query
             let page = Number(req.query.page);
             if (isNaN(page) || page < 1) {
@@ -32,6 +33,24 @@ export const    getCategory = async ( req, res ) => {
             const categoryCount = await Category.find( condition ).countDocuments()
             const category = await Category.find( condition ).populate('offer')
             .sort( sort ).skip(( page - 1 ) * CATEGORY_PER_PAGE ).limit( CATEGORY_PER_PAGE )
+            if(req.user.role==="vendor"){
+                return  res.render( 'res/admin/category', {
+                admin : req.user.id,
+                category : category,
+                err : req.flash('categoryExist'),
+                success : req.flash('success'),
+                currentPage : page,
+                hasNextPage : page * CATEGORY_PER_PAGE < categoryCount,
+                hasPrevPage : page > 1,
+                nextPage : page + 1,
+                prevPage : page -1,
+                lastPage : Math.ceil( categoryCount / CATEGORY_PER_PAGE ),
+                search : search,
+                sortData : sortData,
+                sortOrder : sortOrder,
+                availableOffers : availableOffers
+            } )
+            }
             res.render( 'admin/category', {
                 admin : req.session.admin,
                 category : category,

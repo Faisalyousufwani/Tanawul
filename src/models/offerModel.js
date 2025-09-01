@@ -25,6 +25,10 @@ const offerSchema = Schema({
     status : {
         type : Boolean, 
         default : true
+    },
+    owner:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
     }
 
 })

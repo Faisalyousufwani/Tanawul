@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 
-<form action="/public/restaurant/new" method="post" enctype="multipart/form-data">
+<!-- <form action="/public/restaurant/new" method="post" enctype="multipart/form-data">
     <div class="checkout-customer">
         <label for="firstname" class="form-label">Title<span class="text-danger">*</span></label>
         <label for="lastname" class="form-label">Location<span class="text-danger">*</span></label>
@@ -16,3 +16,76 @@
     </div>
     <button type="submit">Submit</button>
 </form>
+
+ -->
+
+<style>
+    .main-div{
+        display: flex;
+        justify-content: center;
+
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    .profile-container {
+        /* border: .5px solid #6e6e6e2f; */
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    }
+    section {
+        width: 80%;
+    }
+    .edit-image{
+        text-decoration: none;
+    }
+    input {
+        border-radius: 0!important;
+    }
+    input.form-control, textarea {
+        background-color: #fff;
+    }
+    input:disabled{
+        border: none;
+        background-color: #fff;
+        font-weight: bold;
+    }
+</style>
+<div class="main-div m-5">
+    <section class="font-1">
+        <div class="">
+            <div class="row justify-content-center">
+                <div class="col-md-9 pl-lg-5">
+                    <div class="row">
+                        
+                    </div>
+                    <form class="mt-5 row" id="restaurantForm" action="/restaurant/new" method="post" enctype="multipart/form-data">
+                        <div id="errorMessageContainer"></div>
+                        <div class="col-md-12">
+                            <input class="form-control mb-3" type="text"name="Restaurant[title]" required placeholder="Enter restaurant title">
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control mb-3" type="number"name="Restaurant[contact]" required placeholder="Contact">
+                        </div>
+                        <div class="col-12">
+                            <input class="form-control mb-3" type="text" name="Restaurant[location]" required placeholder="locaion">
+                        </div>
+                        <div class="col-12">
+                            <input class="form-control mb-3" type="text"name="Restaurant[time]" required placeholder="opening and closing time">
+                        </div>
+                        <div class="col-12">
+                            <input class="form-control mb-3" type="file" name="Restaurant[image]" required placeholder="enter restaurant image">
+                        </div>
+                        <div><input class="mt-4 btn btn-dark rounded-0" value="Add Restaurant" type="submit"></div>
+                </div>
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.container-->
+    </section>
+</div>
+
+
+
+

@@ -1,32 +1,29 @@
 import express from "express"
-import path from "path"
-
-
-import {getAdminHome,getUserList,blockUser,unBlockUser} from "../controllers/adminController.js"
-import {getProductsList,getAddProducts,addProducts,deleteProduct,restoreProduct,getEditProdut,editProduct,applyProductOffer,removeProductOffer,deleteImage} from "../controllers/productController.js"
+import {getAdminHome,getUserList} from "../controllers/adminController.js"
+import {getProductsList,getAddProducts,addProducts,deleteProduct,restoreProduct,getEditProdut,editProduct} from "../controllers/productController.js"
 import {getCategory,addCategory,getEditCategory,editCategory,listCategory,unlistCategory,applyCategoryOffer,removeCategoryOffer} from "../controllers/categoryController.js"
 import {getAdminOrderlist,changeOrderStatus,adminOrderProducts,getSalesReport} from "../controllers/orderController.js"
 import {getCoupon,editCoupon,getAddCoupon,addCoupon,getEditCoupon,cancelCoupon} from "../controllers/couponController.js"
-import { getOffers,getAddOffer,addOffer,getEditOffer,editOffer,cancelOffer } from "../controllers/offerController.js"
 import { authMiddleware,authRole } from "../middlewares/auth.middleware.js"
+import { getRestaurantList,approveRestaurant,blockRestaurant } from "../controllers/restaurantController.js"
 
-// const multer = require('multer')
-// const upload = require( '../middleware/multer' )
 import upload from "../middlewares/multer.middleware.js"
 
 const router = express.Router()
 
 // Routes 
 
-// router.get( '/login',  getAdminLogin )
-// router.post( '/login', doAdminLogin )
-// router.get( '/logout', authMiddleware,authRole('admin'),doAdminLogout )
+
+// router.get( '/logout', authMiddleware )
+
+router.get("/restaurant-list",authMiddleware,authRole('admin'),getRestaurantList)
+router.get("/restaurant/approve/:id",authMiddleware,authRole('admin'),approveRestaurant)
+router.get("/restaurant/block/:id",authMiddleware,authRole('admin'),blockRestaurant)
 
 router.get( '/', authMiddleware,authRole('admin'), getAdminHome )
 
 router.get( '/userList', authMiddleware,authRole('admin'), getUserList )
-router.patch( '/block-user/:id', authMiddleware,authRole('admin'), blockUser )
-router.patch( '/unblock-user/:id', authMiddleware,authRole('admin'), unBlockUser )
+
 
 
 router.get( '/category', authMiddleware,authRole('admin'), getCategory )
@@ -43,7 +40,7 @@ router.get( '/delete-product/:id', authMiddleware,authRole('admin'), deleteProdu
 router.get( '/restore-product/:id', authMiddleware,authRole('admin'), restoreProduct )
 router.get( '/edit-product/:id', authMiddleware,authRole('admin'), getEditProdut )
 router.post( '/edit-product', authMiddleware,authRole('admin'), upload.array('image',4), editProduct )
-router.get( '/delete-image', authMiddleware,authRole('admin'), deleteImage )
+
 
 
 router.get( '/orders', authMiddleware,authRole('admin'), getAdminOrderlist )
@@ -57,14 +54,7 @@ router.get( '/edit-coupon/:id' ,authMiddleware,authRole('admin'), getEditCoupon 
 router.post( '/edit-coupon', authMiddleware,authRole('admin'), editCoupon )
 router.patch( '/cancel-coupon', authMiddleware,authRole('admin'), cancelCoupon )
 
-router.get( '/offers', authMiddleware,authRole('admin'), getOffers )
-router.get( '/add-offer', authMiddleware,authRole('admin'), getAddOffer )
-router.post( '/add-offer', authMiddleware,authRole('admin'), addOffer )
-router.get( '/edit-offer/:id', authMiddleware,authRole('admin'), getEditOffer )
-router.post( '/edit-offer', authMiddleware,authRole('admin'), editOffer )
-router.patch( '/cancel-offer', authMiddleware,authRole('admin'), cancelOffer )
-router.patch( '/apply-product-offer', authMiddleware,authRole('admin'), applyProductOffer )
-router.patch( '/remove-product-offer', authMiddleware,authRole('admin'), removeProductOffer )
+
 router.patch( '/apply-category-offer', authMiddleware,authRole('admin'),  applyCategoryOffer )
 router.patch( '/remove-category-offer', authMiddleware,authRole('admin'),  removeCategoryOffer )
 
