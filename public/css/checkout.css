@@ -1,0 +1,110 @@
+
+
+.item-No{
+   background-color: #ff4500; 
+   display: inline-grid;
+   place-items: center;
+   width: 25px;
+   height: 25px;
+   border-radius: 50%;
+   color: #eee;
+}
+.checkout-heading{
+    display: inline;
+}
+.checkout-section{
+    background-color: #eee;
+    width: 50%;
+    padding: 20px;
+    margin: 20px 30px 0px 30px;
+    font-family: "Poppins";
+    display: inline-block;
+}
+.checkout-section input ,.checkout-section select{
+    border: 1px solid rgba(0, 0, 0, 0.123);
+    border-radius: 8px;
+    width: 100%; 
+}
+.checkout-section button{
+    border-radius: 8px;
+    width: 100%;
+}
+.checkout-customer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 20px 50px 20px 50px 20px 50px;
+    grid-gap: 1vw;
+}
+.checkout-phone{
+    grid-column: 1/3;
+    grid-row: 4
+}
+.checkout-phone-label{
+    grid-column: 1/3;
+    grid-row: 3;
+}
+.checkout-email{
+    grid-column: 1/3;
+    grid-row: 6;
+}
+
+.checkout-address{
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-template-rows: 20px 50px 20px 50px 1fr 20px 50px;
+    gap: 1vw;
+}
+.parts-3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-template-rows: 20px 50px ;
+    gap: 1vw;
+}
+.checkout-country{
+    /* grid-column: 1;
+    grid-row: 7; */
+}
+.checkout-country-select{
+    /* grid-column: 1;
+    grid-row: 8; */
+}
+.checkout-payment{
+        display: grid;
+        grid-template-columns: 1fr ;
+        grid-template-rows:100px 20px 50px 1fr 20px 50px ;
+        gap: 1vw;
+}
+.pay-section{
+    display: grid;
+    grid-template-columns: 1fr  1fr 1fr;
+    grid-template-rows:70px  ;
+    gap: 1vw;
+}
+.pay-section div{
+    /* width: 100%;
+    height: 100%; */
+    background-color: white;
+}
+
+.card-details{
+    display: grid;
+    grid-template-columns: 1fr  1fr;
+    grid-template-rows:20px 50px  ;
+    gap: 1vw;
+}
+.summary-cart{
+    display: inline-block;
+    vertical-align: top;
+    position: sticky;
+    top: 100px;
+    width: 30%;
+    height: auto;
+    background-color: white;
+    padding: 2vw;
+}
+#checkbox,#checkbox1{
+    width: 20px;
+}
+.visibleCuisine{
+    display: none;
+}

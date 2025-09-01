@@ -1,0 +1,37 @@
+.label-success {
+    background-color: #d4edda;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #155724;
+}
+
+.label-pending {
+    background-color: #fff3cd;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #856404;
+}
+
+.order-box {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    background: #fff;
+}
+
+.section-title {
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.item-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-right: 10px;
+}
+
+.item-name {
+    vertical-align: middle;
+}

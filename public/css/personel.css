@@ -1,0 +1,27 @@
+.personel-info input, .personel-info textarea {
+    height: 2.5em;
+    /* font-size: 0.9em;
+    padding: 1em 2em; */
+     border: none;
+    background-color: rgb(211, 210, 210);
+    margin: 0;
+    border-radius: 8px; 
+}
+.personel-info{
+    margin: 100px auto;
+    display: inline-block;
+    font-family: "Poppins";
+    background-color: rgb(222, 76, 76);
+    /* border: 2px solid black; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 3fr;
+    grid-gap: 5px;
+    /* text-align: center; */
+}
+
+/* .personel-info div{
+    font-size: 0.9em;
+    padding: 1em 2em;
+    height: 3em;
+} */
